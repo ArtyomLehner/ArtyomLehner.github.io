@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крестики-нолики 2</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="winnerMessage" class="winner-message"></div>
+    <div id="menu">
+        <h1>Крестики-нолики 2</h1>
+        <button id="startButton">Начать игру</button>
+        <button id="settingsButton">Настройки</button>
+        <button id="recordsButton">Таблица рекордов</button>
+    </div>
+
+    <div id="nicknameInput" class="hidden">
+        <h2>Введите никнейм</h2>
+        <input type="text" id="playerNickname" placeholder="Игрок">
+        <button id="saveNickname">Записать</button>
+    </div>
+
+    <div id="nicknamesInput" class="hidden">
+        <h2>Введите никнеймы</h2>
+        <input type="text" id="player1Nickname" placeholder="Игрок 1">
+        <input type="text" id="player2Nickname" placeholder="Игрок 2">
+        <button id="saveNicknames">Записать</button>
+    </div>
+
+    <div id="gameOptions" class="hidden">
+        <h1>Выбор игры</h1>
+        <button id="nonRatedGame" class="centered-button">Нерейтинговая игра</button>
+        <button id="ratedGame">Рейтинговая игра</button>
+        <button id="backToMenuFromGameOptions">Назад</button>
+    </div>
+
+    <div id="settings" class="hidden">
+        <label for="timeSelect">Выберите время игры:</label>
+        <select id="timeSelect">
+            <option value="15">15 секунд</option>
+            <option value="30">30 секунд</option>
+            <option value="45">45 секунд</option>
+            <option value="60">1 минута</option>
+            <option value="infinity">Бесконечно</option>
+        </select>
+        
+        <label for="fieldSize">Размер поля:</label>
+        <select id="fieldSize">
+            <option value="3">3 x 3</option>
+            <option value="5">5 x 5</option>
+            <option value="7">7 x 7</option>
+            <option value="10">10 x 10</option>
+        </select>
+
+        <div class="checkbox-container">
+            <label>
+                <input type="checkbox" id="constantMatch"> Постоянный матч
+            </label>
+            <label>
+                <input type="checkbox" id="friendlyMatch"> Дружеский матч
+            </label>
+        </div>
+        
+        <button id="backToMenu">Назад</button>
+    </div>
+
+    <div id="records" class="hidden">
+        <h2>Таблица рекордов</h2>
+        <div id="recordsList"></div>
+        <button id="backToMenuFromRecords">Назад</button>
+    </div>
+
+    <div id="gameField" class="hidden">
+        <div id="timer" class="hidden"></div>
+        <div id="board"></div>
+        <div id="score" class="hidden"></div>
+        <div id="playerInfo"></div>
+        <button id="endMatch" class="hidden">Завершить матч</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
