@@ -5,78 +5,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Крестики-нолики 2</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div id="winnerMessage" class="winner-message"></div>
-    <div id="menu">
-        <h1>Крестики-нолики 2</h1>
-        <button id="startButton">Начать игру</button>
-        <button id="settingsButton">Настройки</button>
-        <button id="recordsButton">Таблица рекордов</button>
-    </div>
-
-    <div id="nicknameInput" class="hidden">
-        <h2>Введите никнейм</h2>
-        <input type="text" id="playerNickname" placeholder="Игрок">
-        <button id="saveNickname">Записать</button>
-    </div>
-
-    <div id="nicknamesInput" class="hidden">
-        <h2>Введите никнеймы</h2>
-        <input type="text" id="player1Nickname" placeholder="Игрок 1">
-        <input type="text" id="player2Nickname" placeholder="Игрок 2">
-        <button id="saveNicknames">Записать</button>
-    </div>
-
-    <div id="gameOptions" class="hidden">
-        <h1>Выбор игры</h1>
-        <button id="nonRatedGame" class="centered-button">Нерейтинговая игра</button>
-        <button id="ratedGame">Рейтинговая игра</button>
-        <button id="backToMenuFromGameOptions">Назад</button>
-    </div>
-
-    <div id="settings" class="hidden">
-        <label for="timeSelect">Выберите время игры:</label>
-        <select id="timeSelect">
-            <option value="15">15 секунд</option>
-            <option value="30">30 секунд</option>
-            <option value="45">45 секунд</option>
-            <option value="60">1 минута</option>
-            <option value="infinity">Бесконечно</option>
-        </select>
-        
-        <label for="fieldSize">Размер поля:</label>
-        <select id="fieldSize">
-            <option value="3">3 x 3</option>
-            <option value="5">5 x 5</option>
-            <option value="7">7 x 7</option>
-            <option value="10">10 x 10</option>
-        </select>
-
-        <div class="checkbox-container">
-            <label>
-                <input type="checkbox" id="constantMatch"> Постоянный матч
-            </label>
-            <label>
-                <input type="checkbox" id="friendlyMatch"> Дружеский матч
-            </label>
+    <div class="container">
+        <div id="winnerMessage" class="winner-message hidden">
+            <div class="winner-content">
+                <h2 id="winnerTitle"></h2>
+                <p id="winnerScore"></p>
+            </div>
         </div>
         
-        <button id="backToMenu">Назад</button>
-    </div>
+        <div id="menu" class="screen active">
+            <h1><i class="fas fa-gamepad"></i> Крестики-нолики 2</h1>
+            <div class="button-container">
+                <button id="startButton" class="btn-primary">
+                    <i class="fas fa-play"></i> Начать игру
+                </button>
+                <button id="settingsButton" class="btn-secondary">
+                    <i class="fas fa-cog"></i> Настройки
+                </button>
+                <button id="recordsButton" class="btn-secondary">
+                    <i class="fas fa-trophy"></i> Таблица рекордов
+                </button>
+            </div>
+        </div>
 
-    <div id="records" class="hidden">
-        <h2>Таблица рекордов</h2>
-        <div id="recordsList"></div>
-        <button id="backToMenuFromRecords">Назад</button>
-    </div>
+        <div id="nicknameInput" class="screen hidden">
+            <h2><i class="fas fa-user"></i> Введите никнейм</h2>
+            <input type="text" id="playerNickname" placeholder="Игрок" maxlength="20">
+            <div class="button-container">
+                <button id="saveNickname" class="btn-primary">Продолжить</button>
+                <button id="backFromNickname" class="btn-back"><i class="fas fa-arrow-left"></i> Назад</button>
+            </div>
+        </div>
 
-    <div id="gameField" class="hidden">
-        <div id="timer" class="hidden"></div>
-        <div id="board"></div>
-        <div id="score" class="hidden"></div>
-        <div id="playerInfo"></div>
-        <button id="endMatch" class="hidden">Завершить матч</button>
+        <div id="nicknamesInput" class="screen hidden">
+            <h2><i class="fas fa-users"></i> Введите никнеймы</h2>
+            <input type="text" id="player1Nickname" placeholder="Игрок 1" maxlength="20">
+            <input type="text" id="player2Nickname" placeholder="Игрок 2" maxlength="20">
+            <div class="button-container">
+                <button id="saveNicknames" class="btn-primary">Продолжить</button>
+                <button id="backFromNicknames" class="btn-back"><i class="fas fa-arrow-left"></i> Назад</button>
+            </div>
+        </div>
+
+        <div id="gameOptions" class="screen hidden">
+            <h1><i class="fas fa-chess-board"></i> Выбор игры</h1>
+            <div class="button-container">
+                <button id="nonRatedGame" class="btn-primary">
+                    <i class="fas fa-gamepad"></i> Нерейтинговая игра
+                </button>
+                <button id="ratedGame" class="btn-primary">
+                    <i class="fas fa-chart-line"></i> Рейтинговая игра
+                </button>
+                <button id="backFromGameOptions" class="btn-back"><i class="fas fa-arrow-left"></i> Назад</button>
+            </div>
+        </div>
+
+        <div id="settings" class="screen hidden">
+            <h2><i class="fas fa-cog"></i> Настройки игры</h2>
+            
+            <div class="setting-group">
+                <label for="timeSelect"><i class="fas fa-clock"></i> Время игры:</label>
+                <select id="timeSelect" class="select-box">
+                    <option value="15">15 секунд</option>
+                    <option value="30">30 секунд</option>
+                    <option value="45">45 секунд</option>
+                    <option value="60">1 минута</option>
+                    <option value="infinity">Бесконечно</option>
+                </select>
+            </div>
+            
+            <div class="setting-group">
+                <label for="fieldSize"><i class="fas fa-border-all"></i> Размер поля:</label>
+                <select id="fieldSize" class="select-box">
+                    <option value="3">3 × 3</option>
+                    <option value="5">5 × 5</option>
+                    <option value="7">7 × 7</option>
+                    <option value="10">10 × 10</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label for="botDifficulty"><i class="fas fa-robot"></i> Сложность бота:</label>
+                <select id="botDifficulty" class="select-box">
+                    <option value="easy">Легкая</option>
+                    <option value="medium" selected>Средняя</option>
+                    <option value="hard">Сложная</option>
+                </select>
+            </div>
+
+            <div class="checkboxes">
+                <label class="checkbox">
+                    <input type="checkbox" id="constantMatch">
+                    <span class="checkmark"></span>
+                    <i class="fas fa-infinity"></i> Постоянный матч
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" id="friendlyMatch">
+                    <span class="checkmark"></span>
+                    <i class="fas fa-user-friends"></i> Дружеский матч
+                </label>
+            </div>
+            
+            <div class="button-container">
+                <button id="backFromSettings" class="btn-back"><i class="fas fa-arrow-left"></i> Назад</button>
+            </div>
+        </div>
+
+        <div id="records" class="screen hidden">
+            <h2><i class="fas fa-trophy"></i> Топ-10 игр</h2>
+            <div id="recordsList" class="records-list"></div>
+            <div class="button-container">
+                <button id="backFromRecords" class="btn-back"><i class="fas fa-arrow-left"></i> Назад</button>
+            </div>
+        </div>
+
+        <div id="gameField" class="screen hidden">
+            <div class="game-header">
+                <div id="timer" class="timer">00:00</div>
+                <div id="score" class="score">Счет: 0 - 0</div>
+            </div>
+            
+            <div id="board" class="board"></div>
+            
+            <div id="playerInfo" class="player-info">Сейчас ходит: Игрок (O)</div>
+            
+            <div class="game-controls">
+                <button id="pauseGame" class="btn-secondary">
+                    <i class="fas fa-pause"></i> Пауза
+                </button>
+                <button id="endMatch" class="btn-danger">
+                    <i class="fas fa-stop"></i> Завершить
+                </button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
