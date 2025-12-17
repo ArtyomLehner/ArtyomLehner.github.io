@@ -862,15 +862,70 @@ function getTimeMultiplier(timeOption) {
 }
 
 // Загрузка рекордов
-function loadRecords() {
+async function loadRecords() {
     try {
-        let records = JSON.parse(localStorage.getItem('ticTacToeRecords')) || [];
-        records = records.slice(0, 10).reverse();
-        displayRecords(records);
+        // Пробуем загрузить из data/records.json
+        const response = await fetch('data/records.json');
+        
+        if (response.ok) {
+            const serverRecords = await response.json();
+            displayRecords(serverRecords);
+            console.log('✅ Загружены общие рекорды');
+        } else {
+            throw new Error('Файл не найден');
+        }
+        
     } catch (error) {
-        console.error('Error loading records:', error);
-        elements.recordsList.innerHTML = '<div class="record-item">Рекорды не найдены</div>';
+        console.log('⚠️ Используем локальные записи:', error.message);
+        
+        // Запасной вариант - локальные записи
+        const localRecords = JSON.parse(localStorage.getItem('ticTacToeRecords')) || [];
+        displayRecords(localRecords.slice(0, 10));
     }
+}
+
+async function saveRecordToIssues(scoreX, scoreO) {
+    const player = gameState.playerNames.player;
+    const boardSize = document.getElementById('fieldSize').value;
+    const timeOption = document.getElementById('timeSelect').value;
+    const rating = calculateRating(scoreO, scoreX, timeOption, boardSize);
+    
+    const issueData = {
+        title: `🎮 ${player}: ${scoreO} - ${scoreX} (${boardSize}×${boardSize})`,
+        body: `**Информация о рекорде:**
+- Игрок: ${player}
+- Счет: ${scoreO} - ${scoreX}
+- Размер поля: ${boardSize}×${boardSize}
+- Время: ${timeOption === 'infinity' ? '∞' : timeOption + 'сек'}
+- Рейтинг: ${rating.toFixed(2)}
+- Дата: ${new Date().toLocaleString('ru-RU')}
+
+*Отправлено из игры "Крестики-нолики 2"*`,
+        labels: ['tic-tac-toe-record', 'game']
+    };
+    
+    // Открываем форму создания issue
+    const issueUrl = `https://github.com/https://github.com/ArtyomLehner/ArtyomLehner.github.io/issues/new?` +
+        `title=${encodeURIComponent(issueData.title)}&` +
+        `body=${encodeURIComponent(issueData.body)}&` +
+        `labels=${encodeURIComponent(issueData.labels.join(','))}`;
+    
+    // Показываем кнопку для отправки
+    const submitDiv = document.createElement('div');
+    submitDiv.className = 'record-submit';
+    submitDiv.innerHTML = `
+        <h3>🎉 Поздравляем с рекордом!</h3>
+        <p>Ваш результат: ${scoreO} - ${scoreX}</p>
+        <p>Рейтинг: ${rating.toFixed(2)}</p>
+        <a href="${issueUrl}" target="_blank" class="btn-primary">
+            📤 Отправить в таблицу лидеров
+        </a>
+        <button onclick="this.parentElement.remove()" class="btn-secondary">
+            Пропустить
+        </button>
+    `;
+    
+    document.querySelector('#gameField').appendChild(submitDiv);
 }
 
 // Отображение рекордов
